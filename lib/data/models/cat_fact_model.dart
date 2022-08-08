@@ -1,15 +1,3 @@
-// To parse this JSON data, do
-//
-//     final catFact = catFactFromJson(jsonString);
-import 'dart:convert';
-
-import 'package:cat_trivia/data/constants.dart';
-import 'package:cat_trivia/domain/entities/cat_fact.dart';
-
-CatFactModel catFactFromJson(String str) => CatFactModel.fromJson(json.decode(str));
-
-String catFactToJson(CatFactModel data) => json.encode(data.toJson());
-
 class CatFactModel {
   CatFactModel({
     required this.status,
@@ -64,12 +52,6 @@ class CatFactModel {
     "deleted": deleted,
     "used": used,
   };
-
-  CatFact toEntity() => CatFact(
-    image: Urls.randomCatImageUrl,
-    text: text,
-    createdAt: createdAt,
-  );
 }
 
 class Status {
