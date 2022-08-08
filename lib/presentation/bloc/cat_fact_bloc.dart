@@ -1,3 +1,4 @@
+import 'package:cat_trivia/domain/entities/cat_fact.dart';
 import 'package:cat_trivia/domain/entities/cat_facts.dart';
 import 'package:cat_trivia/domain/usecases/get_cat_facts.dart';
 import 'package:cat_trivia/presentation/bloc/cat_fact_event.dart';
@@ -8,6 +9,7 @@ class CatFactBloc extends Bloc<CatFactEvent, CatFactState> {
   final GetCatFacts _getCatFacts;
 
   late final CatFacts _catFacts;
+  CatFact get _randomCatFact => _catFacts.getRandomCatFact();
 
   CatFactBloc(this._getCatFacts) : super(CatFactsEmpty()) {
     on<DownloadCatFacts>((event, emit) async {
@@ -20,14 +22,14 @@ class CatFactBloc extends Bloc<CatFactEvent, CatFactState> {
         },
         (data) {
           _catFacts = data;
-          emit(CatFactsLoadedSuccessfully(_catFacts));
+          emit(RandomCatFact(_randomCatFact));
         },
       );
     });
     on<GetRandomCatFact>((event, emit) async {
       emit(CatFactsLoading());
 
-      emit(RandomCatFact(_catFacts.getRandomCatFact()));
+      emit(RandomCatFact(_randomCatFact));
     });
   }
 }

@@ -1,6 +1,12 @@
+import 'package:cat_trivia/presentation/bloc/cat_fact_bloc.dart';
+import 'package:cat_trivia/presentation/bloc/cat_fact_event.dart';
+import 'package:cat_trivia/presentation/pages/cat_fact_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'injection.dart' as di;
 
 void main() {
+  di.init();
   runApp(const CatTriviaApp());
 }
 
@@ -9,27 +15,18 @@ class CatTriviaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => di.locator<CatFactBloc>()..add(DownloadCatFacts()),
+        ),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const CatFactPage(),
       ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
     );
   }
 }
